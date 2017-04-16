@@ -15,7 +15,7 @@ public class FunctionalWebApplicationTests {
         webTestClient.get().uri("/").exchange()
                 .expectStatus().is2xxSuccessful()
                 .expectBody(String.class)
-                .value().isEqualTo("Hello");
+                .isEqualTo("Hello");
     }
 
     @Test
@@ -24,7 +24,7 @@ public class FunctionalWebApplicationTests {
                 .expectStatus().is2xxSuccessful()
                 .expectHeader().contentType(APPLICATION_JSON)
                 .expectBody(Hello.class)
-                .value().isEqualTo(new Hello("world"));
+                .isEqualTo(new Hello("world"));
     }
 
 }

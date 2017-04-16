@@ -1,6 +1,6 @@
 package com.example;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 import org.apache.catalina.LifecycleException;
 import org.springframework.http.server.reactive.HttpHandler;
 import org.springframework.http.server.reactive.ReactorHttpHandlerAdapter;
@@ -17,32 +17,9 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
+@Data
 class Hello {
-
     private final String name;
-
-    Hello(@JsonProperty("name") String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Hello)) return false;
-
-        Hello hello = (Hello) o;
-
-        return getName() != null ? getName().equals(hello.getName()) : hello.getName() == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return getName() != null ? getName().hashCode() : 0;
-    }
 }
 
 public class FunctionalWebApplication {
@@ -50,8 +27,11 @@ public class FunctionalWebApplication {
     static RouterFunction getRouter() {
         HandlerFunction hello = request -> ok().body(Mono.just("Hello"), String.class);
 
-        return route(GET("/"), hello)
-                .and(route(GET("/json"), req -> ok().contentType(APPLICATION_JSON).body(Mono.just(new Hello("world")), Hello.class)));
+        return
+            route(
+                GET("/"), hello)
+            .andRoute(
+                GET("/json"), req -> ok().contentType(APPLICATION_JSON).body(Mono.just(new Hello("world")), Hello.class));
     }
 
     public static void main(String[] args) throws IOException, LifecycleException, InterruptedException {
