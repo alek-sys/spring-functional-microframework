@@ -1,15 +1,13 @@
 package com.example;
 
 import lombok.Data;
-import org.apache.catalina.LifecycleException;
 import org.springframework.http.server.reactive.HttpHandler;
 import org.springframework.http.server.reactive.ReactorHttpHandlerAdapter;
 import org.springframework.web.reactive.function.server.HandlerFunction;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
+import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.ipc.netty.http.server.HttpServer;
-
-import java.io.IOException;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.reactive.function.BodyInserters.fromObject;
@@ -25,7 +23,7 @@ class Hello {
 public class FunctionalWebApplication {
 
     static RouterFunction getRouter() {
-        HandlerFunction hello = request -> ok().body(fromObject("Hello"));
+        HandlerFunction<ServerResponse> hello = request -> ok().body(fromObject("Hello"));
 
         return
             route(
@@ -34,7 +32,7 @@ public class FunctionalWebApplication {
                 GET("/json"), req -> ok().contentType(APPLICATION_JSON).body(fromObject(new Hello("world"))));
     }
 
-    public static void main(String[] args) throws IOException, LifecycleException, InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
 
         RouterFunction router = getRouter();
 
