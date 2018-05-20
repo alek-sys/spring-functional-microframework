@@ -1,6 +1,5 @@
 package com.example;
 
-import lombok.Data;
 import org.springframework.http.server.reactive.HttpHandler;
 import org.springframework.http.server.reactive.ReactorHttpHandlerAdapter;
 import org.springframework.web.reactive.function.server.HandlerFunction;
@@ -14,11 +13,6 @@ import static org.springframework.web.reactive.function.BodyInserters.fromObject
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
-
-@Data
-class Hello {
-    private final String name;
-}
 
 public class FunctionalWebApplication {
 
