@@ -6,7 +6,7 @@ import org.springframework.web.reactive.function.server.HandlerFunction;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import reactor.ipc.netty.http.server.HttpServer;
+import reactor.netty.http.server.HttpServer;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.reactive.function.BodyInserters.fromObject;
@@ -33,9 +33,10 @@ public class FunctionalWebApplication {
         HttpHandler httpHandler = RouterFunctions.toHttpHandler(router);
 
         HttpServer
-                .create("localhost", 8080)
-                .newHandler(new ReactorHttpHandlerAdapter(httpHandler))
-                .block();
+                .create()
+                .port(8080)
+                .handle(new ReactorHttpHandlerAdapter(httpHandler))
+                .bindNow();
 
         Thread.currentThread().join();
     }
